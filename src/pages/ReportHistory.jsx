@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Calendar, FileText } from 'lucide-react';
+import { Search, Calendar, FileText, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../utils/storage';
 
@@ -21,7 +21,9 @@ export default function ReportHistory() {
             gender: r.patients?.gender || r.gender || '',
             contact_number: r.patients?.contact_number || r.contact_number || '',
             address: r.patients?.address || r.address || '',
-            test_name: r.tests?.name || ''
+            test_name: r.tests_performed 
+              ? r.tests_performed.map(tp => tp.test_details?.name || 'Unknown').join(', ') 
+              : (r.tests?.name || '')
           }));
           setReports(flattened);
         }
@@ -96,9 +98,14 @@ export default function ReportHistory() {
                 <td>{report.test_name}</td>
                 <td>{report.amount > 0 ? `$${report.amount.toFixed(2)}` : '-'}</td>
                 <td>
-                  <button className="btn btn-outline" style={{ padding: '0.25rem 0.5rem', display: 'flex', gap: '0.25rem', alignItems: 'center' }} onClick={() => navigate(`/preview/${report.id}`, { state: report })}>
-                    <FileText size={16} /> View
-                  </button>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button className="btn btn-outline" style={{ padding: '0.25rem 0.5rem', display: 'flex', gap: '0.25rem', alignItems: 'center' }} onClick={() => navigate(`/preview/${report.id}`, { state: report })}>
+                      <FileText size={16} /> View
+                    </button>
+                    <button className="btn btn-outline" style={{ padding: '0.25rem 0.5rem', display: 'flex', gap: '0.25rem', alignItems: 'center' }} onClick={() => navigate(`/entry`, { state: { editReport: report } })}>
+                      <Edit size={16} /> Edit
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

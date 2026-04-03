@@ -8,17 +8,16 @@ const KEYS = {
 
 // Initial sample data
 const INITIAL_TESTS = [
-  { id: 1, name: 'Haemoglobin', uom: 'gms%', normal_range: '4.5 - 11.0', amount: '' },
-  { id: 2, name: 'Blood sugar fasting', uom: 'mg/dL', normal_range: '70 - 110', amount: '' },
-  { id: 3, name: 'Blood sugar post prandial', uom: 'mg/dL', normal_range: 'Up to 140', amount: '' },
-  { id: 4, name: 'Blood sugar random', uom: 'mg/dL', normal_range: '80-120', amount: '' },
-  { id: 6, name: 'Blood urea', uom: 'mg/dL', normal_range: 'Up to 50', amount: '' },
-  { id: 7, name: 'Serum creatinine', uom: 'mg/dL', normal_range: '0.6 - 1.1', amount: '' },
-  { id: 8, name: 'Total cholestrol', uom: 'mg/dL', normal_range: '150-200', amount: '' },
-  { id: 9, name: 'HDL', uom: 'mg/dL', normal_range: '35-80', amount: '' },
-  { id: 10, name: 'LDL', uom: 'mg/dL', normal_range: '40-91', amount: '' },
-  { id: 11, name: 'Triglycerides', uom: 'mg/dL', normal_range: '60-165', amount: '' },
-
+  { id: 1, name: 'Haemoglobin', uom: 'gms%', normal_range: '4.5 - 11.0', amount: '150' },
+  { id: 2, name: 'Blood sugar fasting', uom: 'mg/dL', normal_range: '70 - 110', amount: '120' },
+  { id: 3, name: 'Blood sugar post prandial', uom: 'mg/dL', normal_range: 'Up to 140', amount: '120' },
+  { id: 4, name: 'Blood sugar random', uom: 'mg/dL', normal_range: '80-120', amount: '100' },
+  { id: 6, name: 'Blood urea', uom: 'mg/dL', normal_range: 'Up to 50', amount: '180' },
+  { id: 7, name: 'Serum creatinine', uom: 'mg/dL', normal_range: '0.6 - 1.1', amount: '200' },
+  { id: 8, name: 'Total cholestrol', uom: 'mg/dL', normal_range: '150-200', amount: '250' },
+  { id: 9, name: 'HDL', uom: 'mg/dL', normal_range: '35-80', amount: '300' },
+  { id: 10, name: 'LDL', uom: 'mg/dL', normal_range: '40-91', amount: '300' },
+  { id: 11, name: 'Triglycerides', uom: 'mg/dL', normal_range: '60-165', amount: '350' },
 ];
 
 const getStoredData = (key, defaultValue = []) => {
@@ -107,10 +106,22 @@ export const db = {
     const tests = getStoredData(KEYS.TESTS, INITIAL_TESTS);
 
     // Join with tests
-    return reports.map(report => ({
-      ...report,
-      tests: tests.find(t => t.id.toString() === report.test_id.toString()) || null
-    }));
+    return reports.map(report => {
+      // New multi-test format
+      if (report.tests_performed && Array.isArray(report.tests_performed)) {
+        const enrichedTests = report.tests_performed.map(tp => ({
+          ...tp,
+          test_details: tests.find(t => t.id.toString() === tp.test_id.toString()) || null
+        }));
+        return { ...report, tests_performed: enrichedTests };
+      }
+      
+      // Fallback for old single-test format
+      return {
+        ...report,
+        tests: tests.find(t => t.id.toString() === report.test_id.toString()) || null
+      };
+    });
   },
 
   saveReport: async (reportData) => {
