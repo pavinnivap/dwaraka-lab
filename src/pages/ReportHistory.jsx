@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Calendar, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { API_URL } from '../config';
+import { db } from '../utils/storage';
 
 export default function ReportHistory() {
   const [reports, setReports] = useState([]);
@@ -9,19 +9,18 @@ export default function ReportHistory() {
   const [dateFilter, setDateFilter] = useState('');
   const navigate = useNavigate();
 
-  // Load Fetch History
+  // Load History from local storage
   useEffect(() => {
-    fetch(`${API_URL}/reports`)
-      .then(res => res.json())
+    db.getReports()
       .then(data => {
-        if (!data.error && Array.isArray(data)) {
+        if (data && Array.isArray(data)) {
           const flattened = data.map(r => ({
             ...r,
-            patient_name: r.patients?.patient_name || '',
-            age: r.patients?.age || '',
-            gender: r.patients?.gender || '',
-            contact_number: r.patients?.contact_number || '',
-            address: r.patients?.address || '',
+            patient_name: r.patients?.patient_name || r.patient_name || '',
+            age: r.patients?.age || r.age || '',
+            gender: r.patients?.gender || r.gender || '',
+            contact_number: r.patients?.contact_number || r.contact_number || '',
+            address: r.patients?.address || r.address || '',
             test_name: r.tests?.name || ''
           }));
           setReports(flattened);
@@ -95,7 +94,7 @@ export default function ReportHistory() {
                 <td style={{ fontWeight: '500' }}>{report.serial_number}</td>
                 <td>{report.patient_name}</td>
                 <td>{report.test_name}</td>
-                <td>${report.amount.toFixed(2)}</td>
+                <td>{report.amount > 0 ? `$${report.amount.toFixed(2)}` : '-'}</td>
                 <td>
                   <button className="btn btn-outline" style={{ padding: '0.25rem 0.5rem', display: 'flex', gap: '0.25rem', alignItems: 'center' }} onClick={() => navigate(`/preview/${report.id}`, { state: report })}>
                     <FileText size={16} /> View

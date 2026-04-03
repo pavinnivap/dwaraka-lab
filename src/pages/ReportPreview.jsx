@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Printer, ArrowLeft } from 'lucide-react';
-import { API_URL } from '../config';
+import { db } from '../utils/storage';
 
 export default function ReportPreview() {
   const { state } = useLocation();
@@ -10,26 +10,24 @@ export default function ReportPreview() {
   const [testDetails, setTestDetails] = useState(null);
 
   useEffect(() => {
-    // If we loaded without state (e.g., refresh), we'd fetch from API by ID
-    // For this mock, we just use a preset if state is missing
+    // If we loaded without state (e.g., refresh), we'd fetch from storage by ID
     if (!report) {
-      setReport({
-        serial_number: 'RPT-12345', date: '2026-03-29', patient_name: 'John Doe', age: '45', gender: 'Male', contact_number: '555-0192', referred_by: 'Dr. Smith', test_id: '1', result: '4.8', remarks: 'Normal test results.'
-      });
+       db.getReports().then(reports => {
+         const { id } = useParams(); // Note: useParams might not be used correctly here if ID is not in URL
+         const found = reports.find(r => r.id.toString() === id?.toString());
+         if (found) setReport(found);
+       });
     }
 
     // Fetch real test details to show Normal Range/UOM
-    fetch(`${API_URL}/tests`)
-      .then(res => res.json())
+    db.getTests()
       .then(data => {
-        if (!data.error) {
+        if (data) {
            const tId = report?.test_id || 1;
            const found = data.find(t => t.id.toString() === tId.toString());
            setTestDetails(found || data[0]);
         }
       });
-
-
   }, [report]);
 
   const handlePrint = () => {

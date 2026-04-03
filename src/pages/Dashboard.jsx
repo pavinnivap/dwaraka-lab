@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
-import { API_URL } from '../config';
+import { db } from '../utils/storage';
 
 export default function Dashboard() {
   const [tests, setTests] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ id: null, name: '', uom: '', normal_range: '', amount: '' });
 
-  // Fetch tests from API
+  // Fetch tests from local storage
   useEffect(() => {
-    fetch(`${API_URL}/tests`)
-      .then(res => res.json())
-      .then(data => {
-        if (!data.error) setTests(data);
-      })
-      .catch(err => console.error(err));
+    db.getTests().then(data => setTests(data)).catch(err => console.error(err));
   }, []);
 
   const handleEdit = (test) => {
@@ -24,7 +19,7 @@ export default function Dashboard() {
 
   const handleDelete = async (id) => {
     if (confirm('Are you sure you want to delete this test?')) {
-      await fetch(`${API_URL}/tests/${id}`, { method: 'DELETE' });
+      await db.deleteTest(id);
       setTests(tests.filter(t => t.id !== id));
     }
   };
@@ -32,17 +27,10 @@ export default function Dashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const payload = { ...formData, amount: parseFloat(formData.amount) };
-      const res = await fetch(`${API_URL}/tests`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
+      const payload = { ...formData, amount: parseFloat(formData.amount || 0) };
+      const data = await db.saveTest(payload);
       
-      if (!res.ok) throw new Error(data.error);
-      
-      const savedTest = data[0]; // Supabase returns array
+      const savedTest = data[0]; 
       
       if (formData.id) {
         setTests(tests.map(t => t.id === formData.id ? savedTest : t));
@@ -85,7 +73,7 @@ export default function Dashboard() {
                 <td style={{ fontWeight: '500' }}>{test.name}</td>
                 <td>{test.uom}</td>
                 <td>{test.normal_range}</td>
-                <td>${test.amount}</td>
+                <td>{test.amount > 0 ? `$${test.amount}` : '-'}</td>
                 <td>
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
                     <button className="btn btn-outline" style={{ padding: '0.25rem 0.5rem' }} onClick={() => handleEdit(test)}>
@@ -125,7 +113,7 @@ export default function Dashboard() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Amount</label>
-                  <input type="number" step="0.01" className="form-control" required value={formData.amount} onChange={e => setFormData({...formData, amount: e.target.value})} />
+                  <input type="number" step="0.01" className="form-control" value={formData.amount} onChange={e => setFormData({...formData, amount: e.target.value})} />
                 </div>
               </div>
               <div className="modal-footer">

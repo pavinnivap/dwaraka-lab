@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Save } from 'lucide-react';
-import { API_URL } from '../config';
+import { db } from '../utils/storage';
 
 export default function ReportEntry() {
   const navigate = useNavigate();
@@ -25,19 +25,18 @@ export default function ReportEntry() {
     };
   });
 
-  // Fetch Tests for dropdown
+  // Fetch Tests from local storage
   useEffect(() => {
-    fetch(`${API_URL}/tests`)
-      .then(res => res.json())
+    db.getTests()
       .then(data => {
-        if (!data.error) setTests(data);
+        if (data) setTests(data);
       })
       .catch(err => console.error(err));
   }, []);
 
   const handleTestChange = (e) => {
     const testId = e.target.value;
-    const selectedTest = tests.find(t => t.id.toString() === testId);
+    const selectedTest = tests.find(t => t.id.toString() === testId.toString());
     
     setFormData(prev => ({
       ...prev,
@@ -57,15 +56,7 @@ export default function ReportEntry() {
         amount: parseFloat(formData.amount || 0)
       };
 
-      const res = await fetch(`${API_URL}/reports`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      
+      const data = await db.saveReport(payload);
       const createdReport = data[0];
       
       // Fuse local form data to pass to preview exactly as expected
@@ -151,7 +142,7 @@ export default function ReportEntry() {
 
           <div className="form-group">
             <label className="form-label">Amount ($)</label>
-            <input type="number" step="0.01" className="form-control" name="amount" required value={formData.amount} readOnly style={{ backgroundColor: 'var(--bg-color)' }} />
+            <input type="number" step="0.01" className="form-control" name="amount" value={formData.amount} readOnly style={{ backgroundColor: 'var(--bg-color)' }} />
           </div>
         </div>
 
