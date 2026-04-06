@@ -58,7 +58,7 @@ export default function ReportPreview() {
       </div>
 
       <div style={{ overflowX: 'auto', paddingBottom: '1rem', width: '100%' }}>
-        <div className="card preview-card" style={{ display: 'flex', flexDirection: 'column', padding: '3rem', width: '210mm', minWidth: '794px', minHeight: '297mm', margin: '0 auto', backgroundColor: 'white' }}>
+        <div className="card preview-card" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', width: '210mm', minWidth: '794px', minHeight: 'auto', margin: '0 auto', backgroundColor: 'white' }}>
 
           {/* Header */}
           {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
@@ -89,10 +89,10 @@ export default function ReportPreview() {
           {/* </div> */}
 
           {/* Separator */}
-          <div style={{ borderTop: '2px solid #ffffffff', borderBottom: '4px solid #ffffffff', height: '2px', display: 'flex', marginBottom: '1rem', marginTop: '10rem' }}></div>
+          <div style={{ borderTop: '2px solid #ffffffff', borderBottom: '4px solid #ffffffff', height: '2px', display: 'flex', marginBottom: '0.5rem', marginTop: '7rem' }}></div>
 
           {/* Info Grid (All fields in one box) */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2.5rem', padding: '1rem', border: '1px solid #000', backgroundColor: '#fff' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '1rem', padding: '0.5rem', border: 'none', backgroundColor: '#fff' }}>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '0.95rem' }}>
               <div style={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -132,34 +132,34 @@ export default function ReportPreview() {
           </div>
 
           {/* Results Table */}
-          <div style={{ marginBottom: '3rem' }}>
-            <h3 style={{ marginBottom: '1.5rem', textAlign: 'center', textDecoration: 'underline', fontSize: '1.25rem' }}>LABORATORY REPORT</h3>
-            <table style={{ width: '100%', borderCollapse: 'collapse', border: '2px solid #000' }}>
+          <div style={{ marginBottom: '1.5rem' }}>
+            <h3 style={{ marginTop: '-1rem', marginBottom: '0.75rem', textAlign: 'center', textDecoration: 'underline', fontSize: '1.25rem' }}>LABORATORY REPORT</h3>
+            <table style={{ width: '100%', borderCollapse: 'collapse', border: 'none' }}>
               <thead>
                 <tr style={{ borderBottom: '2px solid #000', backgroundColor: '#f8fafc' }}>
-                  <th style={{ padding: '0.75rem', border: '1px solid #000', textAlign: 'left', width: '40%' }}>TEST NAME</th>
-                  <th style={{ padding: '0.75rem', border: '1px solid #000', textAlign: 'center' }}>RESULT</th>
-                  <th style={{ padding: '0.75rem', border: '1px solid #000', textAlign: 'center' }}>UNIT</th>
-                  <th style={{ padding: '0.75rem', border: '1px solid #000', textAlign: 'center' }}>NORMAL RANGE</th>
+                  <th style={{ padding: '0.75rem', border: 'none', borderBottom: '1px solid #000', textAlign: 'left', width: '40%' }}>TEST NAME</th>
+                  <th style={{ padding: '0.75rem', border: 'none', borderBottom: '1px solid #000', textAlign: 'center' }}>RESULT</th>
+                  <th style={{ padding: '0.75rem', border: 'none', borderBottom: '1px solid #000', textAlign: 'center' }}>UNIT</th>
+                  <th style={{ padding: '0.75rem', border: 'none', borderBottom: '1px solid #000', textAlign: 'center' }}>NORMAL RANGE</th>
                 </tr>
               </thead>
               <tbody>
                 {report.tests_performed && Array.isArray(report.tests_performed) ? (
                   report.tests_performed.map((tp, idx) => (
                     <tr key={idx}>
-                      <td style={{ padding: '1rem', border: '1px solid #000' }}><strong>{tp.test_details?.name || 'Unknown'}</strong></td>
-                      <td style={{ padding: '1rem', border: '1px solid #000', textAlign: 'center', fontWeight: 'bold', fontSize: '1.1rem' }}>{tp.result}</td>
-                      <td style={{ padding: '1rem', border: '1px solid #000', textAlign: 'center' }}>{tp.test_details?.uom}</td>
-                      <td style={{ padding: '1rem', border: '1px solid #000', textAlign: 'center' }}>{tp.test_details?.normal_range}</td>
+                      <td style={{ padding: '1rem', border: 'none', borderBottom: '1px solid #eee' }}><strong>{tp.test_details?.name || 'Unknown'}</strong></td>
+                      <td style={{ padding: '1rem', border: 'none', borderBottom: '1px solid #eee', textAlign: 'center', fontWeight: 'bold', fontSize: '1.1rem' }}>{tp.result}</td>
+                      <td style={{ padding: '1rem', border: 'none', borderBottom: '1px solid #eee', textAlign: 'center' }}>{tp.test_details?.uom}</td>
+                      <td style={{ padding: '1rem', border: 'none', borderBottom: '1px solid #eee', textAlign: 'center' }}>{tp.test_details?.normal_range}</td>
                     </tr>
                   ))
                 ) : (
                   // Fallback for legacy single-test reports
                   <tr>
-                    <td style={{ padding: '1rem', border: '1px solid #000' }}><strong>{testDetails?.name || 'Unknown'}</strong></td>
-                    <td style={{ padding: '1rem', border: '1px solid #000', textAlign: 'center', fontWeight: 'bold', fontSize: '1.1rem' }}>{report.result}</td>
-                    <td style={{ padding: '1rem', border: '1px solid #000', textAlign: 'center' }}>{testDetails?.uom}</td>
-                    <td style={{ padding: '1rem', border: '1px solid #000', textAlign: 'center' }}>{testDetails?.normal_range}</td>
+                    <td style={{ padding: '1rem', border: 'none', borderBottom: '1px solid #eee' }}><strong>{testDetails?.name || 'Unknown'}</strong></td>
+                    <td style={{ padding: '1rem', border: 'none', borderBottom: '1px solid #eee', textAlign: 'center', fontWeight: 'bold', fontSize: '1.1rem' }}>{report.result}</td>
+                    <td style={{ padding: '1rem', border: 'none', borderBottom: '1px solid #eee', textAlign: 'center' }}>{testDetails?.uom}</td>
+                    <td style={{ padding: '1rem', border: 'none', borderBottom: '1px solid #eee', textAlign: 'center' }}>{testDetails?.normal_range}</td>
                   </tr>
                 )}
               </tbody>
@@ -168,14 +168,14 @@ export default function ReportPreview() {
 
           {/* Remarks */}
           {report.remarks && (
-            <div style={{ marginBottom: '3rem' }}>
+            <div style={{ marginBottom: '1.5rem' }}>
               <strong>Remarks:</strong>
-              <p style={{ marginTop: '0.5rem', color: 'var(--text-muted)' }}>{report.remarks}</p>
+              <p style={{ marginTop: '0.25rem', color: 'var(--text-muted)' }}>{report.remarks}</p>
             </div>
           )}
 
           {/* Footer/Signatures */}
-          <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'flex-end', paddingTop: '4rem' }}>
+          <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'flex-end', paddingTop: '0.5rem' }}>
             <div style={{ textAlign: 'center' }}>
               <div style={{ width: '200px', borderBottom: '1px solid var(--text-main)', marginBottom: '0.5rem' }}></div>
               <p style={{ fontSize: '1rem', fontWeight: 'bold', margin: '0' }}>Analyst</p>
