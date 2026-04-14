@@ -356,13 +356,15 @@ a:hover {
   }
 
   .preview-card {
-    min-height: auto !important;
-    height: auto !important;
+    min-height: 230mm !important;
+    height: 230mm !important;
     margin: 0 !important;
     padding: 10mm !important;
     width: 100% !important;
     box-shadow: none !important;
     border: none !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
   .main-content {

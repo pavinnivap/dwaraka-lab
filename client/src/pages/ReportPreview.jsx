@@ -57,8 +57,8 @@ export default function ReportPreview() {
         </button>
       </div>
 
-      <div style={{ overflowX: 'auto', paddingBottom: '1rem', width: '100%', marginTop: '11rem', }}>
-        <div className="card preview-card" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', width: '210mm', minWidth: '794px', minHeight: '270mm', margin: '0 auto', backgroundColor: 'white', boxSizing: 'border-box' }}>
+      <div style={{ overflowX: 'auto', paddingBottom: '1rem', width: '100%', marginTop: '11rem' }}>
+        <div className="card preview-card" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', width: '210mm', minWidth: '794px', minHeight: '230mm', margin: '0 auto', backgroundColor: 'white', boxSizing: 'border-box' }}>
 
           {/* Header */}
           {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
@@ -174,9 +174,9 @@ export default function ReportPreview() {
             </div>
           )}
 
-          <div style={{ marginTop: '19.5rem', paddingTop: '2rem', display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+          <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'flex-end', paddingTop: '2rem' }}>
             <div style={{ textAlign: 'center', minWidth: '200px' }}>
-              <p style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#000', paddingTop: '0.5rem' }}>Analyst</p>
+              <p style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#000' }}>Analyst</p>
             </div>
           </div>
 
