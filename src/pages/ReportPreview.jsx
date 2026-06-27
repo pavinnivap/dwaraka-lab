@@ -174,11 +174,7 @@ export default function ReportPreview() {
             </div>
           )}
 
-          <div style={{ marginTop: '19.5rem', paddingTop: '2rem', display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-            <div style={{ textAlign: 'center', minWidth: '200px' }}>
-              <p style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#000', paddingTop: '0.5rem' }}>Analyst</p>
-            </div>
-          </div>
+
 
 
         </div>
