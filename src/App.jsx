@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Menu } from 'lucide-react';
-import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ReportEntry from './pages/ReportEntry';
 import ReportPreview from './pages/ReportPreview';
@@ -9,17 +8,9 @@ import ReportHistory from './pages/ReportHistory';
 import Sidebar from './components/Sidebar';
 import './index.css';
 
-// A simple auth mock state for now until Supabase UI is hooked.
-// Usually, you'd wrap this with a Context Provider checking supabase.auth.getSession()
-
-const ProtectedRoute = ({ children }) => {
+const AppLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const isAuthenticated = localStorage.getItem('supabase-auth-token') === 'true'; // simplified check
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  
+
   return (
     <div className="app-container">
       <div className="mobile-header print-hide">
@@ -39,7 +30,7 @@ const ProtectedRoute = ({ children }) => {
       <div className={`mobile-overlay ${isSidebarOpen ? 'open' : ''} print-hide`} onClick={() => setIsSidebarOpen(false)}></div>
 
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-      
+
       <main className="main-content">
         {children}
       </main>
@@ -51,33 +42,18 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        
-        <Route path="/" element={<ProtectedRoute><Navigate to="/dashboard" replace /></ProtectedRoute>} />
-        
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="/entry" element={
-          <ProtectedRoute>
-            <ReportEntry />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="/preview/:id" element={
-          <ProtectedRoute>
-            <ReportPreview />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="/history" element={
-          <ProtectedRoute>
-            <ReportHistory />
-          </ProtectedRoute>
-        } />
+        <Route path="/" element={<AppLayout><Dashboard /></AppLayout>} />
+
+        <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
+
+        <Route path="/entry" element={<AppLayout><ReportEntry /></AppLayout>} />
+
+        <Route path="/preview/:id" element={<AppLayout><ReportPreview /></AppLayout>} />
+
+        <Route path="/history" element={<AppLayout><ReportHistory /></AppLayout>} />
+
+        {/* Catch-all: redirect unknown paths to home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
