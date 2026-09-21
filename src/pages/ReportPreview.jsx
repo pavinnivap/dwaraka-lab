@@ -57,13 +57,13 @@ export default function ReportPreview() {
         </button>
       </div>
 
-      <div style={{ overflowX: 'auto', paddingBottom: '1rem', width: '100%', marginTop: '8rem', }}>
-        <div className="card preview-card" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', width: '210mm', minWidth: '794px', minHeight: '270mm', margin: '0 auto', backgroundColor: 'white', boxSizing: 'border-box' }}>
+      <div className="preview-wrapper" style={{ overflowX: 'auto', paddingBottom: '1rem', width: '100%', marginTop: '7rem' }}>
+        <div className="card preview-card" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', width: '100%', maxWidth: '210mm', minHeight: '270mm', margin: '0 auto', backgroundColor: 'white', boxSizing: 'border-box' }}>
 
           {/* Header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            {/* Logo Section */}
-            {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '120px' }}>
+          {/* Logo Section */}
+           {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '120px' }}>
             <svg width="65" height="65" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
               <path d="M25,10 L60,10 C85,10 95,30 95,50 C95,70 85,90 60,90 L25,90 Z M35,20 L35,80 L60,80 C75,80 82,60 82,50 C82,40 75,20 60,20 Z" fill="#0d2b7c" />
               <rect x="8" y="10" width="10" height="80" fill="#0d2b7c" />
@@ -72,8 +72,8 @@ export default function ReportPreview() {
             <span style={{ color: '#0d2b7c', fontSize: '0.8rem', fontWeight: 'bold', marginTop: '0.25rem' }}>Dwaraka Lab</span>
           </div> */}
 
-            {/* Center Text */}
-            {/* <div style={{ textAlign: 'center', flex: 1, padding: '0 1rem' }}>
+          {/* Center Text */}
+          {/* <div style={{ textAlign: 'center', flex: 1, padding: '0 1rem' }}>
             <h1 style={{ color: '#0d2b7c', fontFamily: 'Georgia, serif', fontSize: '2.8rem', letterSpacing: '1px', margin: '0 0 0.5rem 0' }}>DWARAKA LAB</h1>
             <p style={{ color: '#0d2b7c', fontSize: '1rem', fontWeight: 'bold', margin: '0' }}>
               Appadurai Complex, Poyyundar Kottai, Orathanadu Tk,
@@ -81,8 +81,8 @@ export default function ReportPreview() {
             </p>
           </div> */}
 
-            {/* Contact Section */}
-            {/* <div style={{ textAlign: 'left', color: '#0d2b7c', fontWeight: 'bold', fontSize: '1rem', minWidth: '160px' }}>
+          {/* Contact Section */}
+          {/* <div style={{ textAlign: 'left', color: '#0d2b7c', fontWeight: 'bold', fontSize: '1rem', minWidth: '160px' }}>
 
             <p style={{ margin: 0 }}>Cell: 89401 53903</p>
           </div> */}

@@ -32,7 +32,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 600;
   color: var(--text-main);
 }
@@ -265,11 +270,15 @@ a:hover {
 
 /* Utility Animations */
 @keyframes fadeIn {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  to { transform: translateY(0); }
+  to {
+    transform: translateY(0);
+  }
 }
 
 /* Mobile Responsiveness */
@@ -301,11 +310,11 @@ a:hover {
   .app-container {
     flex-direction: column;
   }
-  
+
   .mobile-header {
     display: flex;
   }
-  
+
   .sidebar {
     position: fixed;
     top: 0;
@@ -316,7 +325,7 @@ a:hover {
     transform: translateX(-100%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   .sidebar.open {
     transform: translateX(0);
   }
@@ -332,16 +341,17 @@ a:hover {
   body {
     background-color: white;
   }
-  
-  .sidebar, .print-hide {
+
+  .sidebar,
+  .print-hide {
     display: none !important;
   }
-  
+
   .main-content {
     padding: 0;
     margin: 0;
   }
-  
+
   .card {
     box-shadow: none;
     border: none;
